@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GRUP MEWING KEREN</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    /* Tambahan font keren */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    const text = 'GRUP MEWING KEREN';
+    const letters = text.split('');
+    const radius = 150;
+    const fontSize = 40;
+
+    ctx.font = `${fontSize}px Orbitron`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    let angle = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < letters.length; i++) {
+        const char = letters[i];
+        const charAngle = angle + (i * (Math.PI * 2 / letters.length));
+        const x = centerX + Math.cos(charAngle) * radius;
+        const y = centerY + Math.sin(charAngle) * radius;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(charAngle + Math.PI / 2);
+        ctx.fillStyle = `hsl(${(i * 30 + angle * 100) % 360}, 100%, 70%)`;
+        ctx.shadowColor = 'white';
+        ctx.shadowBlur = 20;
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+      }
+
+      angle += 0.01;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    // Responsif
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
